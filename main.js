@@ -1,37 +1,55 @@
-function getUserValue(){
-    const userValue = document.querySelector('.input');
-    let value = ''
-    if(userValue.value !== ''  ){
-        value = userValue.value
-        userValue.value = ''
-        return
-    }else{
-        const removeEvent = document.querySelector('.del-btn')
-        removeEvent.removeEventListener('click', deleteTask)
-        return
-    }
-    
-    return value
+function checkUserValue() {
+  const userValue = document.querySelector(".input").value;
+  if (userValue !== "" && userValue.length > 3) {
+    createTodo(userValue);
+    document.querySelector(".input").value = ''
+  } else {
+    showErrorMsg()
+  }
 }
 
-function createTodo(){
-    const rootElem = document.getElementById("root")
+function createTodo(value) {
+  const todo = document.createElement("div");
+  const deleteBtn = document.createElement("button");
+  const doneTask = document.createElement("input");
 
-    const todo = document.createElement("div");
-    const deleteBtn = document.createElement('button');
+  todo.classList.add("todo");
+  deleteBtn.classList.add("del-btn");
+  deleteBtn.textContent = "Delete Task";
+  todo.textContent = value;
+  doneTask.type = "checkbox";
+  deleteBtn.addEventListener("click", deleteTask);
+  doneTask.addEventListener("change", doneTasks);
 
-    todo.classList.add('todo')
-    deleteBtn.classList.add('del-btn')
-    deleteBtn.textContent = "Delete Task"
-    todo.textContent = getUserValue()
-    
-    deleteBtn.addEventListener('click', deleteTask)
-    todo.appendChild(deleteBtn)
-    rootElem.appendChild(todo)
-    
+  todo.appendChild(deleteBtn);
+  todo.appendChild(doneTask);
+  addTask(todo);
 }
 
-function deleteTask(){
-    this.parentElement.remove()
-    
+function addTask(task) {
+  document.getElementById("root").appendChild(task);
+}
+
+function doneTasks() {
+  this.parentElement.classList.add("done");
+  showDoneTasks();
+}
+
+function deleteTask() {
+  this.parentElement.remove();
+}
+
+function showDoneTasks() {
+  const doneUserTasks = document.querySelectorAll(".done");
+  console.log(doneUserTasks.length);
+}
+
+function showErrorMsg(){
+    const errorMsg = document.createElement('h2').textContent = "Enter task not an empty and bigger then 3 chracter"
+    const rootElem = document.querySelector('.errorMsg')
+    rootElem.append(errorMsg)
+    setTimeout(()=>{
+        rootElem.childNodes[rootElem.childNodes.length -1].remove()
+    }, 1000)
+
 }
