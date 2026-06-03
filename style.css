@@ -24,3 +24,21 @@
     width: 35px;
     height: 35px;
 }
+.btn{
+    padding: 20px 40px;
+}
+.input{
+    width: 100vh;
+    height: 50px;
+    padding: 10px;
+    margin: 10px;
+}
+.done-length{
+    width: auto;
+    height:25px;
+}
+.error-msg{
+    height: 50px;
+    color: red;
+    font-size: xx-large;
+}
