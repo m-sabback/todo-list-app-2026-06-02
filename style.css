@@ -1,0 +1,26 @@
+.todo-list{
+    width: 100vh;
+    height: 100vh;
+    background-color: rgb(255, 255, 77);
+    /* padding: 20px; */
+}
+.todo{
+     width: 100%;
+     background-color: blueviolet;
+     padding: 10px;
+     margin: 10px;
+     /*height: 100%;
+    display: flex;
+    justify-content: space-between; */
+}
+.del-btn{
+    margin: 0px 0px 0px auto;
+    padding: 10px 20px;
+}
+.done-task{
+    padding: 10px 10px;
+    margin: 10px;
+    
+    width: 35px;
+    height: 35px;
+}

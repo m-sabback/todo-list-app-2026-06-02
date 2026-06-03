@@ -2,9 +2,9 @@ function checkUserValue() {
   const userValue = document.querySelector(".input").value;
   if (userValue !== "" && userValue.length > 3) {
     createTodo(userValue);
-    document.querySelector(".input").value = ''
+    document.querySelector(".input").value = "";
   } else {
-    showErrorMsg()
+    showErrorMsg();
   }
 }
 
@@ -18,6 +18,7 @@ function createTodo(value) {
   deleteBtn.textContent = "Delete Task";
   todo.textContent = value;
   doneTask.type = "checkbox";
+  doneTask.className = "done-task";
   deleteBtn.addEventListener("click", deleteTask);
   doneTask.addEventListener("change", doneTasks);
 
@@ -27,7 +28,7 @@ function createTodo(value) {
 }
 
 function addTask(task) {
-  document.getElementById("root").appendChild(task);
+  document.querySelector(".todo-list").appendChild(task);
 }
 
 function doneTasks() {
@@ -40,16 +41,15 @@ function deleteTask() {
 }
 
 function showDoneTasks() {
-  const doneUserTasks = document.querySelectorAll(".done");
-  console.log(doneUserTasks.length);
+  return document.querySelectorAll(".done").length;
 }
 
-function showErrorMsg(){
-    const errorMsg = document.createElement('h2').textContent = "Enter task not an empty and bigger then 3 chracter"
-    const rootElem = document.querySelector('.errorMsg')
-    rootElem.append(errorMsg)
-    setTimeout(()=>{
-        rootElem.childNodes[rootElem.childNodes.length -1].remove()
-    }, 1000)
-
+function showErrorMsg() {
+  const errorMsg = (document.createElement("h2").textContent =
+    "Enter task not an empty and bigger then 3 chracter");
+  const rootElem = document.querySelector(".errorMsg");
+  rootElem.append(errorMsg);
+  setTimeout(() => {
+    rootElem.childNodes[rootElem.childNodes.length - 1].remove();
+  }, 1000);
 }
