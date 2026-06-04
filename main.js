@@ -1,11 +1,13 @@
+import { score } from "./score.js";
+
 function startListener() {
   document.querySelector(".input").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       checkUserValue();
-      console.log("enter is ckicked");
     }
   });
+  document.querySelector(".btn").addEventListener("click", checkUserValue);
 }
 
 function checkUserValue() {
@@ -15,11 +17,12 @@ function checkUserValue() {
     createTodo(userValue.value);
     document.querySelector(".input").value = "";
   } else {
+    document.querySelector(".input").focus();
+    const textLength = document.querySelector(".input").value.length;
+    document.querySelector(".input").setSelectionRange(textLength, textLength);
     showErrorMsg();
   }
 }
-
-function hh() {}
 
 function createTodo(value) {
   const todo = document.createElement("div");
@@ -67,6 +70,10 @@ function deleteTask() {
 function showDoneTasks() {
   document.querySelector(".done-length").textContent =
     `task you have done: ${document.querySelectorAll(".done").length}`;
+
+  document.querySelector(".score").textContent = score(
+    document.querySelectorAll(".done").length,
+  );
 }
 
 function showErrorMsg() {
