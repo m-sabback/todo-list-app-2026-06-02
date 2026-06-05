@@ -1,4 +1,11 @@
 import { score } from "./score.js";
+import {
+  saveToLocalStorage,
+  getOneValueFromLocalStorage,
+  getAllValueFromLocalStorage,
+  removeOneValueFromLocalStorage,
+  removeAllValueFromLocalStorage,
+} from "./local_storage.js";
 
 function startListener() {
   document.querySelector(".input").addEventListener("keydown", (e) => {
@@ -7,20 +14,39 @@ function startListener() {
       checkUserValue();
     }
   });
+
   document.querySelector(".btn").addEventListener("click", checkUserValue);
+  document
+    .querySelector(".r-all-tasks")
+    .addEventListener("click", removeAllFun);
+}
+function removeAllFun(){
+  removeAllValueFromLocalStorage()
+  if(document.querySelectorAll('.todo').length !== 0){
+  document.querySelectorAll('.todo').forEach(todo => {
+    todo.remove()
+  })
+  document.querySelectorAll(".done").forEach(done => {
+    done.remove()
+  })
+  }else{
+    showErrorMsg('No task to Remove!')
+  }
+  showDoneTasks()
 }
 
 function checkUserValue() {
   const userValue = document.querySelector(".input");
 
   if (userValue.value !== "" && userValue.value.length > 3) {
-    createTodo(userValue.value);
+    saveToLocalStorage(userValue.value);
+    createTodo(getOneValueFromLocalStorage());
     document.querySelector(".input").value = "";
   } else {
     document.querySelector(".input").focus();
     const textLength = document.querySelector(".input").value.length;
     document.querySelector(".input").setSelectionRange(textLength, textLength);
-    showErrorMsg();
+    showErrorMsg("Enter task not an empty and bigger then 3 chracter");
   }
 }
 
@@ -64,6 +90,8 @@ function deleteTask() {
   } else {
     this.parentElement.remove();
   }
+  removeOneValueFromLocalStorage(this.parentElement.childNodes[0].data);
+  createElementFromLocalStorage();
   showDoneTasks();
 }
 
@@ -76,9 +104,8 @@ function showDoneTasks() {
   );
 }
 
-function showErrorMsg() {
-  const errorMsg = (document.createElement("h2").textContent =
-    "Enter task not an empty and bigger then 3 chracter");
+function showErrorMsg(text) {
+  const errorMsg = (document.createElement("h2").textContent = text);
   const rootElem = document.querySelector(".error-msg");
   rootElem.append(errorMsg);
   setTimeout(() => {
@@ -86,7 +113,18 @@ function showErrorMsg() {
   }, 3000);
 }
 
+function createElementFromLocalStorage() {
+  const len = document.querySelector(".todo-list").childNodes.length;
+  const allLen = getAllValueFromLocalStorage().length;
+  if (len !== allLen) {
+    getAllValueFromLocalStorage().forEach((value) => {
+      createTodo(value);
+    });
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   startListener();
   showDoneTasks();
+  createElementFromLocalStorage();
 });
